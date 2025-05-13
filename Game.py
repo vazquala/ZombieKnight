@@ -247,7 +247,7 @@ class Game:
     def add_zombie(self):
         """Add a zombie to the game"""
         # Check to add a zombie every second
-        if self.frame_count % Game.FPS is 0:
+        if self.frame_count % Game.FPS == 0:
             if self.round_time % self.zombie_creation_time == 0:
                 Zombie(self.platform_group, self.portal_group, self.round_number,
                        5 + self.round_number, self.WINDOW_WIDTH, self.WINDOW_HEIGHT, self.FPS)
@@ -303,7 +303,7 @@ class Game:
 
     def check_round_completion(self):
         """Check if the player survived a single night."""
-        if self.round_time is 0:
+        if self.round_time == 0:
             self.start_new_round()
 
     def check_game_over(self):
@@ -369,16 +369,16 @@ class Game:
     def reset_game(self):
         """Reset the game"""
         # Reset game values
-        # TODO: assign the following to these self variables
-        # 0 to score, 1 to round_number, self.STARTING_ROUND_TIME to round_time
-        # self.STARTING_ZOMBIE_CREATION_TIME to zombie_creation_time,
+        self.score = 0
+        self.round_number = 1
+        self.round_time = self.STARTING_ROUND_TIME
+        self.zombie_create_time = self.STARTING_ZOMBIE_CREATION_TIME
 
         # Reset the player
-        # TODO: assign self.my_player.STARTING_HEALTH to self.my_player.health
-        # TODO: call self.my_player.reset()
+        self.my_player.health = self.my_player.STARTING_HEALTH
+        self.my_player.reset()
 
         # Empty sprite groups
-        #TODO: call .empty() on the following sprite groups
         self.zombie_group.empty()
         self.ruby_group.empty()
         self.bullet_group.empty()
