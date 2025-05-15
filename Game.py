@@ -11,47 +11,36 @@ from Zombie import Zombie
 
 
 class Game:
-    """A class to help manage gameplay"""
-
-    # Set display surface (tile size is 32x32 so 1280/32 = 40 tiles wide, 736/32 = 23 tiles high)
     WINDOW_WIDTH = 1280
     WINDOW_HEIGHT = 736
     display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     pygame.display.set_caption("Zombie Knight")
 
-    # Set FPS and clock
     FPS = 60
     clock = pygame.time.Clock()
 
-    # Set colors
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
     GREEN = (25, 200, 25)
 
     def __init__(self):
-        """Initialize the game"""
-        # Set constant variables
         self.running = True
         self.STARTING_ROUND_TIME = 30
         self.STARTING_ZOMBIE_CREATION_TIME = 5
 
-        # Set game values
         self.score = 0
         self.round_number = 1
         self.frame_count = 0
+        self.round_time = self.STARTING_ROUND_TIME
         self.zombie_create_time = self.STARTING_ZOMBIE_CREATION_TIME
 
         self.title_font = pygame.font.Font("./assets/fonts/Poultrygeist.ttf", 48)
         self.HUD_font = pygame.font.Font("./assets/fonts/Pixel.ttf", 24)
 
-        # Set Sounds
         self.lost_ruby_sound = pygame.mixer.Sound("assets/sounds/lost_ruby.wav")
         self.ruby_pickup_sound = pygame.mixer.Sound("assets/sounds/ruby_pickup.wav")
         pygame.mixer.music.load("assets/sounds/level_music.wav")
 
-        # Create the tile map
-        # 0 -> no tile, 1 -> dirt, 2-5 -> platforms, 6 -> ruby maker, 7-8 -> portals, 9 -> player
-        # 23 rows and 40 columns
         self.tile_map = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
              0, 0, 0, 0],
@@ -101,41 +90,36 @@ class Game:
              1, 1, 1, 1]
         ]
 
-        # Create sprite groups
-        main_tile_group = pygame.sprite.Group()
-        platform_group = pygame.sprite.Group()
-        player_group = pygame.sprite.Group()
-        bullet_group = pygame.sprite.Group()
-        zombie_group = pygame.sprite.Group()
-        portal_group = pygame.sprite.Group()
-        ruby_group = pygame.sprite.Group()
+        self.main_tile_group = pygame.sprite.Group()
+        self.platform_group = pygame.sprite.Group()
+        self.player_group = pygame.sprite.Group()
+        self.bullet_group = pygame.sprite.Group()
+        self.zombie_group = pygame.sprite.Group()
+        self.portal_group = pygame.sprite.Group()
+        self.ruby_group = pygame.sprite.Group()
 
-        # Generate Tile objects from the tile map
-        # Loop through the 23 lists (rows) in the tile map (row moves us down the map)
         for row in range(len(self.tile_map)):
-            # Loop through the 40 elements in a given list (cols) (col moves us across the map)
             for col in range(len(self.tile_map[row])):
-                # Dirt tiles
                 if self.tile_map[row][col] == 1:
-                    Tile(col * 32, row * 32, 1, self.main_title_group)
-                    # Platform tiles
+                    Tile(col * 32, row * 32, 1, self.main_tile_group)
+
                 elif self.tile_map[row][col] == 2:
-                    Tile(col * 32, row * 32, 2, self.main_title_group, self.platform_group)
+                    Tile(col * 32, row * 32, 2, self.main_tile_group, self.platform_group)
                 elif self.tile_map[row][col] == 3:
-                    Tile(col * 32, row * 32, 3, self.main_title_group, self.platform_group)
+                    Tile(col * 32, row * 32, 3, self.main_tile_group, self.platform_group)
                 elif self.tile_map[row][col] == 4:
-                    Tile(col * 32, row * 32, 4, self.main_title_group, self.platform_group)
+                    Tile(col * 32, row * 32, 4, self.main_tile_group, self.platform_group)
                 elif self.tile_map[row][col] == 5:
-                    Tile(col * 32, row * 32, 5, self.main_title_group, self.platform_group)
-                # Ruby Maker
+                    Tile(col * 32, row * 32, 5, self.main_tile_group, self.platform_group)
+
                 elif self.tile_map[row][col] == 6:
                     RubyMaker(col * 32, row * 32, self.main_tile_group)
-                # Portals
+
                 elif self.tile_map[row][col] == 7:
                     Portal(col * 32, row * 32, "green", self.portal_group)
                 elif self.tile_map[row][col] == 8:
                     Portal(col * 32, row * 32, "purple", self.portal_group)
-                # Player
+
                 elif self.tile_map[row][col] == 9:
                     self.my_player = Player(col * 32 - 32, row * 32 + 32,
                                             self.platform_group, self.portal_group, self.bullet_group,
@@ -143,10 +127,10 @@ class Game:
 
                     self.player_group.add(self.my_player)
 
-        # Load in a background image (we must resize)
-        pygame.transform.scale(pygame.image.load("./assets/images/background.png"), (1280, 736))
-        # to self.background_image
-        self.background_rect = self.background_image.get_rect(0, 0)
+        self.background_image = pygame.transform.scale(pygame.image.load("./assets/images/background.png"), (1280, 736))
+
+        self.background_rect = self.background_image.get_rect
+        self.background_rect.topleft = (0, 0)
 
         self.pause_game("Zombie Knight", "Press 'Enter' to Begin")
         pygame.mixer.music.play(-1, 0.0)
@@ -154,18 +138,14 @@ class Game:
         self.game_loop()
 
     def game_loop(self):
-        # The main game loop
         running = True
         while running:
-            # Check to see if the user wants to quit
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
                 if event.type == pygame.KEYDOWN:
-                    # Player wants to jump
                     if event.key == pygame.K_SPACE:
                         self.my_player.jump()
-                    # Player wants to fire
                     if event.key == pygame.K_UP:
                         self.my_player.fire()
 
@@ -207,10 +187,11 @@ class Game:
         if self.frame_count % Game.FPS == 0:
             self.round_time -= 1
             self.frame_count = 0
+
             self.check_collisions()
             self.add_zombie()
             self.check_round_completion()
-            self.game_over()
+            self.check_game_over()
 
     def draw(self):
         """Draw the game HUD"""
@@ -249,8 +230,8 @@ class Game:
         # Check to add a zombie every second
         if self.frame_count % Game.FPS == 0:
             if self.round_time % self.zombie_creation_time == 0:
-                Zombie(self.platform_group, self.portal_group, self.round_number,
-                       5 + self.round_number, self.WINDOW_WIDTH, self.WINDOW_HEIGHT, self.FPS)
+                zombie = Zombie(self.platform_group, self.portal_group, self.round_number,
+                                5 + self.round_number, self.WINDOW_WIDTH, self.WINDOW_HEIGHT, self.FPS)
                 self.zombie_group.add(zombie)
 
     def check_collisions(self):
