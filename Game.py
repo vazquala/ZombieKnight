@@ -32,7 +32,7 @@ class Game:
         self.round_number = 1
         self.frame_count = 0
         self.round_time = self.STARTING_ROUND_TIME
-        self.zombie_create_time = self.STARTING_ZOMBIE_CREATION_TIME
+        self.zombie_creation_time = self.STARTING_ZOMBIE_CREATION_TIME
 
         self.title_font = pygame.font.Font("./assets/fonts/Poultrygeist.ttf", 48)
         self.HUD_font = pygame.font.Font("./assets/fonts/Pixel.ttf", 24)
@@ -129,7 +129,7 @@ class Game:
 
         self.background_image = pygame.transform.scale(pygame.image.load("./assets/images/background.png"), (1280, 736))
 
-        self.background_rect = self.background_image.get_rect
+        self.background_rect = self.background_image.get_rect()
         self.background_rect.topleft = (0, 0)
 
         self.pause_game("Zombie Knight", "Press 'Enter' to Begin")
@@ -188,10 +188,10 @@ class Game:
             self.round_time -= 1
             self.frame_count = 0
 
-            self.check_collisions()
-            self.add_zombie()
-            self.check_round_completion()
-            self.check_game_over()
+        self.check_collisions()
+        self.add_zombie()
+        self.check_round_completion()
+        self.check_game_over()
 
     def draw(self):
         """Draw the game HUD"""
@@ -339,7 +339,7 @@ class Game:
         while is_paused:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
-                    if event.type == pygame.K_RETURN:
+                    if event.key == pygame.K_RETURN:
                         is_paused = False
                         pygame.mixer.music.unpause()
                 if event.type == pygame.QUIT:
@@ -353,7 +353,7 @@ class Game:
         self.score = 0
         self.round_number = 1
         self.round_time = self.STARTING_ROUND_TIME
-        self.zombie_create_time = self.STARTING_ZOMBIE_CREATION_TIME
+        self.zombie_creation_time = self.STARTING_ZOMBIE_CREATION_TIME
 
         # Reset the player
         self.my_player.health = self.my_player.STARTING_HEALTH

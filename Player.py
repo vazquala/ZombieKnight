@@ -11,7 +11,6 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
 
         #Set constant variables
-
         self.HORIZONTAL_ACCELERATION = 2
         self.HORIZONTAL_FRICTION = 0.15
         self.VERTICAL_ACCELERATION = 0.8
@@ -32,15 +31,24 @@ class Player(pygame.sprite.Sprite):
 
         #Moving
         self.move_right_sprites.append(
-            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (1).png"), (64, 64)),
-            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (2).png"), (64, 64)),
-            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (3).png"), (64, 64)),
-            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (4).png"), (64, 64)),
-            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (5).png"), (64, 64)),
-            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (6).png"), (64, 64)),
-            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (7).png"), (64, 64)),
-            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (8).png"), (64, 64)),
-            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (9).png"), (64, 64)),
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (1).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (2).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (3).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (4).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (5).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (6).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (7).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (8).png"), (64, 64)))
+        self.move_right_sprites.append(
+            pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (9).png"), (64, 64)))
+        self.move_right_sprites.append(
             pygame.transform.scale(pygame.image.load("./assets/images/player/run/Run (10).png"), (64, 64)))
 
         for sprite in self.move_right_sprites:
@@ -276,6 +284,6 @@ class Player(pygame.sprite.Sprite):
             self.current_sprite = 0
             if self.animate_jump == True:
                 self.animate_jump = False
-            if self.fire == True:
-                self.fire = False
+            if self.animate_fire == True:
+                self.animate_fire = False
         self.image = sprite_list[int(self.current_sprite)]
