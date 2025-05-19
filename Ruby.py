@@ -72,7 +72,7 @@ class Ruby(pygame.sprite.Sprite):
         elif self.position.x > self.WINDOW_WIDTH:
             self.position.x = 0
 
-        self.position = self.rect.bottomleft
+        self.rect.bottomleft = self.position
 
     def check_collisions(self):
         """Check for collisions with platforms and portals"""
@@ -101,7 +101,7 @@ class Ruby(pygame.sprite.Sprite):
 
     def animate(self, sprite_list, speed):
         """Animate the ruby"""
-        if self.current_sprite > len(sprite_list) - 1:
+        if self.current_sprite < len(sprite_list) - 1:
             self.current_sprite += speed
         else:
             self.current_sprite = 0
